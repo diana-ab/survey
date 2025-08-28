@@ -14,9 +14,9 @@ import java.util.List;
 
 public class ChatGptSurveyCard extends JPanel {
     private SurveyBuiltListener surveyListener;
-    private JTextField topicField = new JTextField();
-    private JButton generateButton = new JButton("Generate from AI");
-    private JTextArea previewArea = new JTextArea(16, 60);
+    private JTextField topicField;
+    private JButton generateButton;
+    private JTextArea previewArea;
     private AiClient aiClient;
     private AiSurveyParser parser = new AiSurveyParser();
 
@@ -24,6 +24,9 @@ public class ChatGptSurveyCard extends JPanel {
         super(new BorderLayout(8, 8));
         this.surveyListener = listener;
         this.aiClient = new AiClient(id);
+        this.topicField = new JTextField();
+        this.generateButton = new JButton("Generate from AI");
+        this.previewArea = new JTextArea(16, 60);
 
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
         previewArea.setEditable(false);
