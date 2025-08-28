@@ -13,20 +13,25 @@ import java.util.List;
 
 
 public class ChatGptSurveyCard extends JPanel {
+    private static final int GAP = 8;
+    private static final int ROWS = 16;
+    private static final int COLUMNS = 60;
+
     private SurveyBuiltListener surveyListener;
     private JTextField topicField;
     private JButton generateButton;
     private JTextArea previewArea;
     private AiClient aiClient;
-    private AiSurveyParser parser = new AiSurveyParser();
+    private AiSurveyParser parser;
 
     public ChatGptSurveyCard(SurveyBuiltListener listener, String id) {
-        super(new BorderLayout(8, 8));
+        super(new BorderLayout(GAP, GAP));
         this.surveyListener = listener;
         this.aiClient = new AiClient(id);
         this.topicField = new JTextField();
         this.generateButton = new JButton("Generate from AI");
-        this.previewArea = new JTextArea(16, 60);
+        this.previewArea = new JTextArea(ROWS, COLUMNS);
+        this.parser = new AiSurveyParser();
 
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
         previewArea.setEditable(false);
