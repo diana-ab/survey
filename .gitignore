@@ -1,2 +1,13 @@
 # Project exclude paths
 /target/
+
+# אל תעלה את קובץ הקונפיג האמיתי עם הטוקן
+src/main/resources/config.properties
+
+# אל תעלה קבצי סודות אחרים
+*.env
+
+# אל תעלה תיקיות Build של Maven ו-IDE
+/target/
+.idea/
+*.iml
