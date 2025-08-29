@@ -1,5 +1,6 @@
 package org.example.model;
 
+import org.example.config.AppConst;
 import org.example.util.Validate;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public final class Question {
         if (id < 0 || id > 100) throw new IllegalArgumentException("Question id must be >=0");
         this.id = id;
         this.text = Validate.requireText(text, "Question text");
-        Validate.requireSizeBetween(optionTexts, 2, 4, "Options");
+        Validate.requireSizeBetween(optionTexts, AppConst.MIN_OPTIONS, AppConst.MAX_OPTIONS, "Options");
         List<OptionForQuestion> tmp = new ArrayList<>();
         for (int i = 0; i < optionTexts.size(); i++) {
             tmp.add(new OptionForQuestion(i, optionTexts.get(i)));
