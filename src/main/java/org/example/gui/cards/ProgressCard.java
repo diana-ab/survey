@@ -11,7 +11,7 @@ public class ProgressCard extends JPanel {
     private static final String LABEL_PROGRESS_TEXT = "Progress";
     private static final String STATUS_READY_TEXT = "Ready";
 
-    private final JLabel status;
+    private JLabel status;
 
     public ProgressCard() {
         super(new BorderLayout(H_GAP, V_GAP));

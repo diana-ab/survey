@@ -38,13 +38,13 @@ public class ManualSurveyCard extends JPanel {
     private static final String NL2 = "\n\n";
     private static final int DISPLAY_INDEX_OFFSET = 1;
 
-    private final SurveyBuiltListener listener;
-    private final JTextField titleField;
-    private final JPanel editorsPanel;
-    private final List<QuestionEditorPanel> editors;
-    private final JButton addBtn;
-    private final JButton removeBtn;
-    private final JButton previewBtn;
+    private SurveyBuiltListener listener;
+    private JTextField titleField;
+    private JPanel editorsPanel;
+    private List<QuestionEditorPanel> editors;
+    private JButton addBtn;
+    private JButton removeBtn;
+    private JButton previewBtn;
 
     public ManualSurveyCard(SurveyBuiltListener listener) {
         super(new BorderLayout(GAP, GAP));

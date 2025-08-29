@@ -33,12 +33,12 @@ public class ChatGptSurveyCard extends JPanel {
     private static final int DISPLAY_INDEX_OFFSET = 1;
     private static final String ERR_FIELD_TOPIC_LABEL = "Topic";
 
-    private final SurveyBuiltListener listener;
-    private final AiClient ai;
-    private final AiSurveyParser parser;
-    private final JTextField topicField;
-    private final JButton generateButton;
-    private final JTextArea previewArea;
+    private SurveyBuiltListener listener;
+    private AiClient ai;
+    private AiSurveyParser parser;
+    private JTextField topicField;
+    private JButton generateButton;
+    private JTextArea previewArea;
 
     public ChatGptSurveyCard(SurveyBuiltListener listener, String id) {
         super(new BorderLayout(GAP_H, GAP_V));

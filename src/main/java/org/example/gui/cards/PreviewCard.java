@@ -23,7 +23,7 @@ public class PreviewCard extends JPanel {
 
     private static final int DISPLAY_INDEX_OFFSET = 1;
 
-    private final JTextArea area;
+    private JTextArea area;
 
     public PreviewCard() {
         super(new BorderLayout(H_GAP, V_GAP));

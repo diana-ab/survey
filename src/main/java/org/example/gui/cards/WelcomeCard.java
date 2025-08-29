@@ -11,7 +11,7 @@ public class WelcomeCard extends JPanel {
     private static final String WELCOME_TEXT = "Welcome! Build a survey using the toolbar.";
     private static final int LABEL_ALIGN = SwingConstants.CENTER;
 
-    private final JLabel label;
+    private JLabel label;
 
     public WelcomeCard() {
         super(new BorderLayout(H_GAP, V_GAP));
