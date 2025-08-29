@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AiSurveyParser {
+
     private static final String FORMAT_INSTRUCTIONS = """
             Follow these rules. Output ONLY in the format below.
             
@@ -35,6 +36,7 @@ public class AiSurveyParser {
             - <option 2>
             - <option 3>
             """;
+
     private static final String ERR_NO_VALID_QUESTIONS =
             "No valid questions parsed. Expected format:\n" +
                     "Q1: <question text>\n" +
@@ -51,17 +53,25 @@ public class AiSurveyParser {
     private static final char HEADER_PREFIX_UPPER = 'Q';
     private static final char HEADER_PREFIX_LOWER = 'q';
     private static final char HEADER_SEPARATOR = ':';
+    private static final String NEWLINE_WIN = "\r\n";
+    private static final String NEWLINE_UNIX = "\n";
+    private static final int HEADER_LINES = 1;
+    private static final int FIRST_QUESTION_INDEX = 0;
+    private static final int FIRST_CHAR_INDEX = 0;
+    private static final int AFTER_SEPARATOR_OFFSET = 1;
+
 
     public static String getSystemFormatInstruction() {
         return FORMAT_INSTRUCTIONS;
     }
+
 
     public List<Question> parseToQuestions(String rawText) {
         String normalized = normalize(rawText);
         String[] blocks = splitIntoBlocks(normalized);
 
         List<Question> questions = new ArrayList<>(Math.min(blocks.length, MAX_QUESTIONS));
-        int nextIndex = 0;
+        int nextIndex = FIRST_QUESTION_INDEX;
 
         for (String block : blocks) {
             if (questions.size() == MAX_QUESTIONS) {
@@ -80,7 +90,7 @@ public class AiSurveyParser {
 
     private String normalize(String text) {
         String t = Validate.requireText(text, ERR_RESPONSE_LABEL);
-        return t.replace("\r\n", "\n").trim(); // Windows CRLF -> LF for consistent splitting
+        return t.replace(NEWLINE_WIN, NEWLINE_UNIX).trim();
     }
 
     private String[] splitIntoBlocks(String text) {
@@ -90,18 +100,18 @@ public class AiSurveyParser {
     private Question parseBlock(String block, int questionIndex) {
         String[] lines = block.split(LINE_SPLIT_REGEX);
 
-        if (lines.length < 1 + MIN_OPTIONS) {
+        if (lines.length < HEADER_LINES + MIN_OPTIONS) {
             return null;
         }
 
-        String header = lines[0].trim();
+        String header = lines[FIRST_QUESTION_INDEX].trim();
         int sep = validHeaderColonIndex(header);
 
         if (sep < 0) {
             return null;
         }
 
-        String questionText = header.substring(sep + 1).trim();
+        String questionText = header.substring(sep + AFTER_SEPARATOR_OFFSET).trim();
 
         if (questionText.isEmpty()) {
             return null;
@@ -122,7 +132,7 @@ public class AiSurveyParser {
             return -1;
         }
 
-        char c0 = header.charAt(0);
+        char c0 = header.charAt(FIRST_CHAR_INDEX);
 
         if (c0 != HEADER_PREFIX_UPPER && c0 != HEADER_PREFIX_LOWER) {
             return -1;
@@ -132,10 +142,10 @@ public class AiSurveyParser {
     }
 
     private List<String> extractOptions(String[] lines) {
-        int capacity = Math.min(MAX_OPTIONS, Math.max(0, lines.length - 1));
+        int capacity = Math.min(MAX_OPTIONS, Math.max(0, lines.length - HEADER_LINES));
         List<String> options = new ArrayList<>(capacity);
 
-        for (int i = 1; i < lines.length && options.size() < capacity; i++) {
+        for (int i = HEADER_LINES; i < lines.length && options.size() < capacity; i++) {
             String line = lines[i].trim();
 
             if (!line.startsWith(OPTION_PREFIX)) {
