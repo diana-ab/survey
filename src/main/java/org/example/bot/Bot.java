@@ -69,8 +69,8 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-    private static boolean isTextMessage(Update u) {
-        return u != null && u.hasMessage() && u.getMessage().hasText();
+    private static boolean isTextMessage(Update update) {
+        return update != null && update.hasMessage() && update.getMessage().hasText();
     }
 
     private static String extractFullName(Update update) {
