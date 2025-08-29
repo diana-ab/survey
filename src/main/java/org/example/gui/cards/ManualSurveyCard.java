@@ -141,27 +141,27 @@ public class ManualSurveyCard extends JPanel {
         }
     }
 
-    private String buildPreviewText(Survey s) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(PREVIEW_TITLE_PREFIX).append(s.getTitle()).append(NL2);
+    private String buildPreviewText(Survey survey) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(PREVIEW_TITLE_PREFIX).append(survey.getTitle()).append(NL2);
 
-        for (Question q : s.getQuestions()) {
-            sb.append(QUESTION_PREFIX)
-                    .append(q.getId() + DISPLAY_INDEX_OFFSET)
+        for (Question question : survey.getQuestions()) {
+            stringBuilder.append(QUESTION_PREFIX)
+                    .append(question.getId() + DISPLAY_INDEX_OFFSET)
                     .append(": ")
-                    .append(q.getText())
+                    .append(question.getText())
                     .append(NL);
 
             int i = 1;
-            for (var opt : q.getOptions()) {
-                sb.append(OPTION_INDENT)
+            for (var opt : question.getOptions()) {
+                stringBuilder.append(OPTION_INDENT)
                         .append(i++)
                         .append(OPTION_NUM_SUFFIX)
                         .append(opt.getText())
                         .append(NL);
             }
-            sb.append(NL);
+            stringBuilder.append(NL);
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
 }

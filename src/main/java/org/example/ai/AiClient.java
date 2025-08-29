@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-//מחלקה שקוראת ל- CHATGPT API
 public class AiClient {
     private static final String AI_URL = "https://app.seker.live/fm1/send-message";
     private static final String TEXT_ID = "?id=";
