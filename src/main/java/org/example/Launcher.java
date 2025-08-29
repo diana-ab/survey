@@ -14,8 +14,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import javax.swing.*;
 
 public class Launcher {
-    private Launcher() {
-    }
 
     public static void start() {
         SwingUtilities.invokeLater(() -> {

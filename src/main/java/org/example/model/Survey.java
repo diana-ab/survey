@@ -10,6 +10,7 @@ import java.util.List;
 public class Survey {
     private static final String ERR_TITLE_LABEL = "Survey title";
     private static final String ERR_QUESTIONS_LABEL = "Questions";
+
     private long id;
     private String title;
     private List<Question> questions;

@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public final class AppFrame extends JFrame implements SurveyBuiltListener {
+public class AppFrame extends JFrame implements SurveyBuiltListener {
     private static final String APP_TITLE = "Survey Builder";
     private static final int FRAME_WIDTH = 900;
     private static final int FRAME_HEIGHT = 700;

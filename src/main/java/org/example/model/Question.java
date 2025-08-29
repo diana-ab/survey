@@ -16,9 +16,9 @@ public class Question {
     private static final String ERR_OPTIONS_LABEL = "Options";
     private static final int OPTION_ID_START = 0;
 
-    private  int id;
-    private  String text;
-    private  List<OptionForQuestion> options;
+    private int id;
+    private String text;
+    private List<OptionForQuestion> options;
 
     public Question(int id, String text, List<String> optionTexts) {
         if (id < MIN_ID || id > MAX_ID) {
