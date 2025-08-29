@@ -13,7 +13,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.swing.*;
 
-public final class Launcher {
+public class Launcher {
     private Launcher() {
     }
 

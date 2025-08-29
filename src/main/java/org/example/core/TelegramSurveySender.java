@@ -27,10 +27,10 @@ public class TelegramSurveySender implements SurveySender {
     public void sendSurvey(Survey survey) throws Exception {
         for (long chatId : community.getAllChatIds()) {
             gateway.sendMessage(new SendMessage(String.valueOf(chatId), "📊 New survey: " + survey.getTitle()));
-            for (Question q : survey.getQuestions()) {
+            for (Question question : survey.getQuestions()) {
                 List<String> opts = new ArrayList<>();
-                for (OptionForQuestion o : q.getOptions()) opts.add(o.getText());
-                SendPoll poll = new SendPoll(String.valueOf(chatId), "(" + (q.getId() + 1) + "/" + survey.getQuestions().size() + ") " + q.getText(), opts);
+                for (OptionForQuestion option : question.getOptions()) opts.add(option.getText());
+                SendPoll poll = new SendPoll(String.valueOf(chatId), "(" + (question.getId() + 1) + "/" + survey.getQuestions().size() + ") " + question.getText(), opts);
                 poll.setIsAnonymous(true);
                 Message msg = gateway.sendPoll(poll);
             }
