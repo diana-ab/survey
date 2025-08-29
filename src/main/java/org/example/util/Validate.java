@@ -1,8 +1,6 @@
 package org.example.util;
 
 public class Validate {
-    private Validate() {
-    }
 
     public static String requireText(String text, String field) {
         if (text == null) throw new IllegalArgumentException(field + " cannot be null");
