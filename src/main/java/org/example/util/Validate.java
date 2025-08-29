@@ -1,10 +1,8 @@
 package org.example.util;
 
-/**
- * EXPLANATION: Small validation helpers to keep the model tidy and fail-fast.
- */
-public final class Validate {
-    private Validate() {}
+public class Validate {
+    private Validate() {
+    }
 
     public static String requireText(String text, String field) {
         if (text == null) throw new IllegalArgumentException(field + " cannot be null");

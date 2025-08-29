@@ -18,9 +18,13 @@ public final class Config {
     }
 
     private static void loadPropsIfNeeded() {
-        if (loaded) return;
+        if (loaded) {
+            return;
+        }
         try (InputStream in = Config.class.getClassLoader().getResourceAsStream("config.properties")) {
-            if (in != null) PROPS.load(in);
+            if (in != null) {
+                PROPS.load(in);
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load config.properties", e);
         }
@@ -30,7 +34,9 @@ public final class Config {
     private static String get(String key) {
         loadPropsIfNeeded();
         String env = System.getenv(key);
-        if (env != null && !env.isBlank()) return env;
+        if (env != null && !env.isBlank()) {
+            return env;
+        }
         String fileVal = PROPS.getProperty(key);
         return (fileVal == null || fileVal.isBlank()) ? null : fileVal.trim();
     }
@@ -42,7 +48,7 @@ public final class Config {
     }
 
     public static String getBotUsername() {
-        String u = get(KEY_BOT_USERNAME);
-        return (u == null || u.isBlank()) ? DEFAULT_USERNAME : u.trim();
+        String username = get(KEY_BOT_USERNAME);
+        return (username == null || username.isBlank()) ? DEFAULT_USERNAME : username.trim();
     }
 }

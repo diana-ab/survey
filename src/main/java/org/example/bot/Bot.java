@@ -10,8 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
-    private final CommunityService communityService;
-    private final CommunityRegistry registry;
+    private CommunityService communityService;
+    private CommunityRegistry registry;
 
     public Bot(CommunityService communityService, CommunityRegistry registry) {
         this.communityService = communityService;
@@ -19,14 +19,20 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     @Override
-    public String getBotToken() { return Config.getBotToken(); }
+    public String getBotToken() {
+        return Config.getBotToken();
+    }
 
     @Override
-    public String getBotUsername() { return Config.getBotUsername(); }
+    public String getBotUsername() {
+        return Config.getBotUsername();
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update == null || !update.hasMessage() || !update.getMessage().hasText()) return;
+        if (update == null || !update.hasMessage() || !update.getMessage().hasText()) {
+            return;
+        }
 
         long chatId = update.getMessage().getChatId();
         String name = (update.getMessage().getFrom() == null) ? null
@@ -41,23 +47,23 @@ public class Bot extends TelegramLongPollingBot {
                 String joinedName = (name == null || name.isBlank()) ? ("User " + chatId) : name;
                 String note = "🟢 " + joinedName + " joined. Community size: " + size;
 
-                // broadcast to all OTHER members (teacher’s wording: "שאר החברים")
                 registry.getMembers().forEach(m -> {
                     if (m.getChatId() == chatId) return;
                     trySend(m.getChatId(), note);
                 });
 
-                // direct confirmation to the joiner (extra UX; not part of the broadcast)
                 trySend(chatId, "✅ Welcome, " + joinedName + "! You’re registered.\nCommunity size: " + size);
             }
             case ALREADY_MEMBER -> System.out.println("Member already registered: " + chatId);
-            default -> { /* ignore */ }
+            default -> {
+            }
         }
     }
 
     private void trySend(long chatId, String text) {
         try {
             execute(new SendMessage(String.valueOf(chatId), text));
-        } catch (TelegramApiException ignored) { }
+        } catch (TelegramApiException ignored) {
+        }
     }
 }

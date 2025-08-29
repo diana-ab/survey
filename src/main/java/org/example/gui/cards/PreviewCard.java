@@ -6,12 +6,12 @@ import org.example.model.Survey;
 import javax.swing.*;
 import java.awt.*;
 
-/** Shows a read-only preview of the current survey. */
-public final class PreviewCard extends JPanel {
-    private final JTextArea area = new JTextArea(20, 60);
+public class PreviewCard extends JPanel {
+    private JTextArea area;
 
     public PreviewCard() {
         super(new BorderLayout(8,8));
+        this.area = new JTextArea(20, 60);
         area.setEditable(false);
         add(new JLabel("Preview"), BorderLayout.NORTH);
         add(new JScrollPane(area), BorderLayout.CENTER);

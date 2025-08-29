@@ -3,8 +3,7 @@ package org.example.gui.cards;
 import javax.swing.*;
 import java.awt.*;
 
-/** Simple welcome card. */
-public final class WelcomeCard extends JPanel {
+public class WelcomeCard extends JPanel {
     public WelcomeCard() {
         super(new BorderLayout());
         JLabel l = new JLabel("Welcome! Build a survey using the toolbar.", SwingConstants.CENTER);

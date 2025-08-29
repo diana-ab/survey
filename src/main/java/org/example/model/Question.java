@@ -1,13 +1,13 @@
 package org.example.model;
 
 import org.example.util.Validate;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Multiple-choice question with 2..4 options. */
 public final class Question {
-    private final int id;                    // 0..2 (we limit to 1..3 questions)
+    private final int id;
     private final String text;
     private final List<OptionForQuestion> options;
 
@@ -23,7 +23,15 @@ public final class Question {
         this.options = Collections.unmodifiableList(tmp);
     }
 
-    public int getId() { return id; }
-    public String getText() { return text; }
-    public List<OptionForQuestion> getOptions() { return options; }
+    public int getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public List<OptionForQuestion> getOptions() {
+        return options;
+    }
 }

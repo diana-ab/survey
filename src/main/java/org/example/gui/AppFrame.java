@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.Executors;
 
-/** Main application frame using CardLayout. */
+/**
+ * Main application frame using CardLayout.
+ */
 public final class AppFrame extends JFrame implements SurveyBuiltListener {
 
     private final CardLayout layout = new CardLayout();
@@ -32,18 +34,16 @@ public final class AppFrame extends JFrame implements SurveyBuiltListener {
         setSize(900, 700);
         setLocationRelativeTo(null);
 
-        // Cards
         manual = new ManualSurveyCard(this);
         aiCard = new ChatGptSurveyCard(this, "209202985");
 
-        // toolbar
         JToolBar tb = new JToolBar();
         JButton goWelcome = new JButton("Home");
-        JButton goManual  = new JButton("Create (Manual)");
-        JButton goAI      = new JButton("Create (AI)");
+        JButton goManual = new JButton("Create (Manual)");
+        JButton goAI = new JButton("Create (AI)");
         JButton goPreview = new JButton("Preview");
-        JButton sendBtn   = new JButton("Send");
-        JButton closeBtn  = new JButton("Close");
+        JButton sendBtn = new JButton("Send");
+        JButton closeBtn = new JButton("Close");
         tb.add(goWelcome);
         tb.add(goManual);
         tb.add(goAI);
@@ -66,10 +66,10 @@ public final class AppFrame extends JFrame implements SurveyBuiltListener {
         add(tb, BorderLayout.NORTH);
 
         root.add(welcome, "WELCOME");
-        root.add(manual,  "MANUAL");
-        root.add(aiCard,  "AI");
+        root.add(manual, "MANUAL");
+        root.add(aiCard, "AI");
         root.add(preview, "PREVIEW");
-        root.add(progress,"PROGRESS");
+        root.add(progress, "PROGRESS");
         root.add(results, "RESULTS");
         add(root, BorderLayout.CENTER);
 

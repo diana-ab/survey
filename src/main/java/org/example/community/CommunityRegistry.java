@@ -23,8 +23,8 @@ public class CommunityRegistry {
         if (!JoinTrigger.matches(text)) {
             return JoinOutcome.IGNORED;
         }
-        Member m = new Member(chatId, nameOrNull == null || nameOrNull.isBlank() ? NULL_NAME + (anonCounter++) : nameOrNull);
-        boolean added = members.add(m);
+        Member member = new Member(chatId, nameOrNull == null || nameOrNull.isBlank() ? NULL_NAME + (anonCounter++) : nameOrNull);
+        boolean added = members.add(member);
         return added ? JoinOutcome.ADDED_NEW_MEMBER : JoinOutcome.ALREADY_MEMBER;
     }
 

@@ -3,9 +3,8 @@ package org.example.gui.cards;
 import javax.swing.*;
 import java.awt.*;
 
-/** Shows final results text. */
-public final class ResultsCard extends JPanel {
-    private final JTextArea area = new JTextArea(20, 60);
+public class ResultsCard extends JPanel {
+    private JTextArea area = new JTextArea(20, 60);
 
     public ResultsCard() {
         super(new BorderLayout(8,8));

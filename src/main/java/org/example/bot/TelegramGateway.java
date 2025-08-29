@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.polls.Poll;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TelegramGateway {
-    private final TelegramLongPollingBot bot;
+    private TelegramLongPollingBot bot;
 
     public TelegramGateway(TelegramLongPollingBot bot) {
         this.bot = bot;
