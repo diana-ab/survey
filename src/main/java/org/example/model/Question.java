@@ -1,5 +1,6 @@
 package org.example.model;
 
+import org.example.ai.AiSurveyParser;
 import org.example.config.AppConst;
 import org.example.util.Validate;
 

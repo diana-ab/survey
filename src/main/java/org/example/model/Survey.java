@@ -1,5 +1,6 @@
 package org.example.model;
 
+import org.example.ai.AiSurveyParser;
 import org.example.config.AppConst;
 import org.example.util.Validate;
 
@@ -15,7 +16,7 @@ public class Survey {
     public Survey(long id, String title, List<Question> questions) {
         this.id = id;
         this.title = Validate.requireText(title, "Survey title");
-        Validate.requireSizeBetween(questions, AppConst.MIN_QUESTIONS, AppConst.MAX_QUESTIONS, "Questions");
+        Validate.requireSizeBetween(questions, AppConst.MIN_QUESTIONS , AppConst.MAX_QUESTIONS, "Questions");
         this.questions = Collections.unmodifiableList(questions);
     }
 

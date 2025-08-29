@@ -6,6 +6,8 @@ import org.example.util.Validate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.config.AppConst.*;
+
 public class AiSurveyParser {
     private static final String FORMAT_INSTRUCTIONS = """
             Follow these rules. Output ONLY in the format below.
@@ -35,17 +37,24 @@ public class AiSurveyParser {
             - <option 2>
             - <option 3>
             """;
-    private static final String NO_VALID_QUESTIONS = "No valid questions parsed. Expected format:\n" +
-            "Q1: <question text>\n" +
-            "- <option>\n- <option>\n\n" +
-            "(Use a blank line between questions.)";
-
-    private static final int MIN_QUESTIONS = 1;
-    private static final int MAX_QUESTIONS = 3;
-    private static final int MIN_OPTIONS = 2;
-    private static final int MAX_OPTIONS = 4;
+    private static final String ERR_NO_VALID_QUESTIONS =
+            "No valid questions parsed. Expected format:\n" +
+                    "Q1: <question text>\n" +
+                    "- <option>\n- <option>\n\n" +
+                    "(Use a blank line between questions.)";
+    private static final String ERR_RESPONSE_LABEL = "AI response (extra)";
     private static final String BLANK_BLOCK_SPLIT_REGEX = "\\n\\s*\\n";
+    private static final String LINE_SPLIT_REGEX = "\\n";
+    private static final String NEWLINE_WIN = "\r\n";
+    private static final String NEWLINE_UNIX = "\n";
     private static final String OPTION_PREFIX = "- ";
+    private static final char HEADER_PREFIX_UPPER = 'Q';
+    private static final char HEADER_PREFIX_LOWER = 'q';
+    private static final char HEADER_SEPARATOR = ':';
+
+    public static String getSystemFormatInstruction() {
+        return FORMAT_INSTRUCTIONS;
+    }
 
     public List<Question> parseToQuestions(String rawText) {
         String normalized = normalize(rawText);
@@ -58,21 +67,19 @@ public class AiSurveyParser {
             if (questions.size() == MAX_QUESTIONS) {
                 break;
             }
-            Question question = parseBlock(block, nextIndex);
-            if (question != null) {
-                questions.add(question);
+            Question q = parseBlock(block, nextIndex);
+            if (q != null) {
+                questions.add(q);
                 nextIndex++;
             }
         }
-
         ensureAtLeastOneQuestion(questions);
         return questions;
     }
 
-
     private String normalize(String text) {
-        String t = Validate.requireText(text, "AI response (extra)");
-        return t.replace("\r\n", "\n").trim();
+        String t = Validate.requireText(text, ERR_RESPONSE_LABEL);
+        return t.replace(NEWLINE_WIN, NEWLINE_UNIX).trim();
     }
 
     private String[] splitIntoBlocks(String text) {
@@ -80,18 +87,18 @@ public class AiSurveyParser {
     }
 
     private Question parseBlock(String block, int questionIndex) {
-        String[] lines = block.split("\\n");
+        String[] lines = block.split(LINE_SPLIT_REGEX);
         if (lines.length < 1 + MIN_OPTIONS) {
             return null;
         }
 
         String header = lines[0].trim();
-        int colonPos = validHeaderColonIndex(header);
-        if (colonPos < 0) {
+        int sep = validHeaderSeparatorIndex(header);
+        if (sep < 0) {
             return null;
         }
 
-        String questionText = header.substring(colonPos + 1).trim();
+        String questionText = header.substring(sep + 1).trim();
         if (questionText.isEmpty()) {
             return null;
         }
@@ -105,12 +112,15 @@ public class AiSurveyParser {
         return new Question(questionIndex, questionText, options);
     }
 
-
-    private int validHeaderColonIndex(String header) {
-        if (header.isEmpty()) return -1;
+    private int validHeaderSeparatorIndex(String header) {
+        if (header == null || header.isEmpty()) {
+            return -1;
+        }
         char c0 = header.charAt(0);
-        if (c0 != 'Q' && c0 != 'q') return -1;
-        return header.indexOf(':');
+        if (c0 != HEADER_PREFIX_UPPER && c0 != HEADER_PREFIX_LOWER) {
+            return -1;
+        }
+        return header.indexOf(HEADER_SEPARATOR);
     }
 
     private List<String> extractOptions(String[] lines) {
@@ -119,21 +129,20 @@ public class AiSurveyParser {
 
         for (int i = 1; i < lines.length && options.size() < capacity; i++) {
             String line = lines[i].trim();
-            if (!line.startsWith(OPTION_PREFIX)) continue;
+            if (!line.startsWith(OPTION_PREFIX)) {
+                continue;
+            }
             String opt = line.substring(OPTION_PREFIX.length()).trim();
-            if (!opt.isEmpty()) options.add(opt);
+            if (!opt.isEmpty()) {
+                options.add(opt);
+            }
         }
-
         return options;
     }
 
     private void ensureAtLeastOneQuestion(List<Question> questions) {
         if (questions.size() < MIN_QUESTIONS) {
-            throw new IllegalArgumentException(NO_VALID_QUESTIONS);
+            throw new IllegalArgumentException(ERR_NO_VALID_QUESTIONS);
         }
-    }
-
-    public static String getSystemFormatInstruction() {
-        return FORMAT_INSTRUCTIONS;
     }
 }
