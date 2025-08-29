@@ -2,7 +2,7 @@ package org.example.util;
 
 
 public enum JoinTrigger {
-    START("/start"), HI_EN("hi"), HELLO("hello"), HI_HE("היי");
+    START("/start"), HI_EN("hi"), HI_HE("היי");
 
     private String text;
 
