@@ -1,6 +1,5 @@
 package org.example.model;
 
-import org.example.ai.AiSurveyParser;
 import org.example.config.AppConst;
 import org.example.util.Validate;
 
@@ -8,19 +7,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class Question {
+public class Question {
+
+    private static final int MIN_ID = 0;
+    private static final int MAX_ID = 100;
+    private static final String ERR_ID_RANGE_FMT = "Question id must be between %d and %d";
+    private static final String ERR_TEXT_LABEL = "Question text";
+    private static final String ERR_OPTIONS_LABEL = "Options";
+    private static final int OPTION_ID_START = 0;
+
     private final int id;
     private final String text;
     private final List<OptionForQuestion> options;
 
     public Question(int id, String text, List<String> optionTexts) {
-        if (id < 0 || id > 100) throw new IllegalArgumentException("Question id must be >=0");
+        if (id < MIN_ID || id > MAX_ID) {
+            throw new IllegalArgumentException(String.format(ERR_ID_RANGE_FMT, MIN_ID, MAX_ID));
+        }
+
         this.id = id;
-        this.text = Validate.requireText(text, "Question text");
-        Validate.requireSizeBetween(optionTexts, AppConst.MIN_OPTIONS, AppConst.MAX_OPTIONS, "Options");
-        List<OptionForQuestion> tmp = new ArrayList<>();
-        for (int i = 0; i < optionTexts.size(); i++) {
-            tmp.add(new OptionForQuestion(i, optionTexts.get(i)));
+        this.text = Validate.requireText(text, ERR_TEXT_LABEL);
+        Validate.requireSizeBetween(optionTexts, AppConst.MIN_OPTIONS, AppConst.MAX_OPTIONS, ERR_OPTIONS_LABEL);
+
+        List<OptionForQuestion> tmp = new ArrayList<>(optionTexts.size());
+        int nextOptionId = OPTION_ID_START;
+        for (String optText : optionTexts) {
+            tmp.add(new OptionForQuestion(nextOptionId++, optText));
         }
         this.options = Collections.unmodifiableList(tmp);
     }
